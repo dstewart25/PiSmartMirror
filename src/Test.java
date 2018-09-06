@@ -17,6 +17,7 @@ public class Test extends JFrame {
     private static JLabel tempLabel;
 
     // Date and time text
+    private static String day;
     private static String date;
     private static String time;
 
@@ -33,9 +34,9 @@ public class Test extends JFrame {
         getDateAndTime();
 
         // Creating labels
-        dateLabel = new JLabel("June 1, 2018");
+        dateLabel = new JLabel(day + " " + date);
         dateLabel.setForeground(Color.WHITE);
-        timeLabel = new JLabel("12:50 PM");
+        timeLabel = new JLabel(time);
         timeLabel.setForeground(Color.WHITE);
         tempLabel = new JLabel("90F");
         tempLabel.setForeground(Color.WHITE);
@@ -51,9 +52,15 @@ public class Test extends JFrame {
     }
 
     public void getDateAndTime() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime time = LocalDateTime.now();
-        System.out.println(dtf.format(time));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE\nMMM dd, yyyy\nh:mm:ss a");
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        String dateTime = dtf.format(localDateTime);
+        //System.out.println(dateTime);
+        String split[] = dateTime.split("\n");
+        day = split[0];
+        date = split[1];
+        time = split[2];
     }
 
     public Test() {
@@ -64,9 +71,9 @@ public class Test extends JFrame {
 
     public static void main(String args[]) {
         Test test = new Test();
-        //device.setFullScreenWindow(test);
-        //test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //test.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //test.setVisible(true);
+        device.setFullScreenWindow(test);
+        test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        test.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        test.setVisible(true);
     }
 }
