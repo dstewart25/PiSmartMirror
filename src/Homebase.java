@@ -93,5 +93,6 @@ public class Homebase extends JFrame {
         homebase.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         homebase.setExtendedState(JFrame.MAXIMIZED_BOTH);
         homebase.setVisible(true);
+        
     }
 }
