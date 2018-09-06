@@ -45,7 +45,7 @@ public class Test extends JFrame {
         super("Smart Mirror");
         setLayout(new BorderLayout(0,0));
         initialize();
-        // fuck mike
+        // fuck mike yee
     }
 
     public static void main(String args[]) {
