@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Test extends JFrame {
     // Panels for BorderLayout
@@ -13,6 +16,10 @@ public class Test extends JFrame {
     private static JLabel timeLabel;
     private static JLabel tempLabel;
 
+    // Date and time text
+    private static String date;
+    private static String time;
+
     public static GraphicsDevice device = GraphicsEnvironment
             .getLocalGraphicsEnvironment().getScreenDevices()[0];
 
@@ -22,6 +29,8 @@ public class Test extends JFrame {
         leftPanel.setBackground(Color.BLACK);
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.BLACK);
+
+        getDateAndTime();
 
         // Creating labels
         dateLabel = new JLabel("June 1, 2018");
@@ -41,18 +50,23 @@ public class Test extends JFrame {
         getContentPane().setBackground(Color.BLACK);
     }
 
+    public void getDateAndTime() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println(dtf.format(time));
+    }
+
     public Test() {
         super("Smart Mirror");
         setLayout(new BorderLayout(0,0));
         initialize();
-        // fuck mike yee
     }
 
     public static void main(String args[]) {
         Test test = new Test();
-        device.setFullScreenWindow(test);
-        test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        test.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        test.setVisible(true);
+        //device.setFullScreenWindow(test);
+        //test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //test.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //test.setVisible(true);
     }
 }
