@@ -1,9 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Test extends JFrame {
@@ -12,6 +11,7 @@ public class Test extends JFrame {
     private static JPanel rightPanel;
 
     // Panel labels
+    private static JLabel dayLabel;
     private static JLabel dateLabel;
     private static JLabel timeLabel;
     private static JLabel tempLabel;
@@ -27,6 +27,7 @@ public class Test extends JFrame {
     public void initialize() {
         // Creating panels
         leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
         leftPanel.setBackground(Color.BLACK);
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.BLACK);
@@ -34,14 +35,21 @@ public class Test extends JFrame {
         getDateAndTime();
 
         // Creating labels
-        dateLabel = new JLabel(day + " " + date);
+        dayLabel = new JLabel(day);
+        dayLabel.setForeground(Color.WHITE);
+        dayLabel.setFont(new Font("Advent Pro", Font.PLAIN, 46));
+        dateLabel = new JLabel(date);
         dateLabel.setForeground(Color.WHITE);
+        dateLabel.setFont(new Font("Advent Pro", Font.PLAIN, 30));
         timeLabel = new JLabel(time);
         timeLabel.setForeground(Color.WHITE);
+        timeLabel.setFont(new Font("Advent Pro", Font.PLAIN, 38));
         tempLabel = new JLabel("90F");
         tempLabel.setForeground(Color.WHITE);
+        tempLabel.setFont(new Font("Advent Pro", Font.PLAIN, 30));
 
         // Adding elements to panel's
+        leftPanel.add(dayLabel);
         leftPanel.add(dateLabel);
         leftPanel.add(timeLabel);
         rightPanel.add(tempLabel);
@@ -49,6 +57,16 @@ public class Test extends JFrame {
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.EAST);
         getContentPane().setBackground(Color.BLACK);
+
+        // Timer for time
+        Timer SimpleTimer = new Timer(1000, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getDateAndTime();
+                timeLabel.setText(time);
+            }
+        });
+        SimpleTimer.start();
     }
 
     public void getDateAndTime() {
