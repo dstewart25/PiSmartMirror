@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Test extends JFrame {
+public class Homebase extends JFrame {
     // Panels for BorderLayout
     private static JPanel leftPanel;
     private static JPanel rightPanel;
@@ -21,10 +21,10 @@ public class Test extends JFrame {
     private static String date;
     private static String time;
 
-    public static GraphicsDevice device = GraphicsEnvironment
+    private static GraphicsDevice device = GraphicsEnvironment
             .getLocalGraphicsEnvironment().getScreenDevices()[0];
 
-    public void initialize() {
+    private void initialize() {
         // Creating panels
         leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
@@ -69,7 +69,7 @@ public class Test extends JFrame {
         SimpleTimer.start();
     }
 
-    public void getDateAndTime() {
+    private void getDateAndTime() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEEE\nMMM dd, yyyy\nh:mm:ss a");
         LocalDateTime localDateTime = LocalDateTime.now();
 
@@ -81,17 +81,17 @@ public class Test extends JFrame {
         time = split[2];
     }
 
-    public Test() {
+    private Homebase() {
         super("Smart Mirror");
         setLayout(new BorderLayout(0,0));
         initialize();
     }
 
     public static void main(String args[]) {
-        Test test = new Test();
-        device.setFullScreenWindow(test);
-        test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        test.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        test.setVisible(true);
+        Homebase homebase = new Homebase();
+        device.setFullScreenWindow(homebase);
+        homebase.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        homebase.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        homebase.setVisible(true);
     }
 }
