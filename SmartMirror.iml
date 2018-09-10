@@ -7,6 +7,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="com.google.api-client:google-api-client:1.21.0" level="project" />
+    <orderEntry type="library" name="com.google.apis:google-api-services-calendar:Latest" level="application" />
+    <orderEntry type="library" name="com.google.api-client:google-api-client:Latest" level="application" />
+    <orderEntry type="library" name="com.google.api-client:google-api-client-extensions:Latest" level="application" />
+    <orderEntry type="library" name="com.google.oauth-client:google-oauth-client-java6:1.26.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="com.google.oauth-client:google-oauth-client-jetty:1.26.0-SNAPSHOT" level="project" />
   </component>
 </module>
