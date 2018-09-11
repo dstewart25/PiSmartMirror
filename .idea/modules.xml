@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PiSmartMirror.iml" filepath="$PROJECT_DIR$/.idea/modules/PiSmartMirror.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PiSmartMirror_main.iml" filepath="$PROJECT_DIR$/.idea/modules/PiSmartMirror_main.iml" group="PiSmartMirror" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PiSmartMirror_test.iml" filepath="$PROJECT_DIR$/.idea/modules/PiSmartMirror_test.iml" group="PiSmartMirror" />
       <module fileurl="file://$PROJECT_DIR$/SmartMirror.iml" filepath="$PROJECT_DIR$/SmartMirror.iml" />
     </modules>
   </component>
