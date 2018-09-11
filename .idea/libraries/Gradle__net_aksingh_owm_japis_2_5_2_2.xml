@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.aksingh:owm-japis:2.5.2.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.aksingh/owm-japis/2.5.2.2/cfee49bc8bc2b553c6906bb37398d3b4c91be8a4/owm-japis-2.5.2.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.aksingh/owm-japis/2.5.2.2/46c29fe0847ec99e749128ee38687fa55116ea65/owm-japis-2.5.2.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
