@@ -1,22 +1,28 @@
-package main.java;
-
+import net.aksingh.owmjapis.api.APIException;
+import net.aksingh.owmjapis.core.OWM;
+import net.aksingh.owmjapis.model.CurrentWeather;
+import net.aksingh.owmjapis.model.param.WeatherData;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Homebase extends JFrame {
     // Panels for BorderLayout
     private static JPanel leftPanel;
     private static JPanel rightPanel;
+    private static JPanel weatherPanel;
 
     // Panel labels
     private static JLabel dayLabel;
     private static JLabel dateLabel;
     private static JLabel timeLabel;
     private static JLabel tempLabel;
+    private static JLabel imageLabel;
 
     // Date and time text
     private static String day;
@@ -26,6 +32,14 @@ public class Homebase extends JFrame {
     private static GraphicsDevice device = GraphicsEnvironment
             .getLocalGraphicsEnvironment().getScreenDevices()[0];
 
+    // Holds five day weather forecast
+    //public static List<WeatherData> fiveDayForecast = new LinkedList<>();
+    private static Weather weather;
+    private ImageIcon weatherIcon;
+
+    // declaring string to hold symbol for degree
+    private final String DEGREE  = "\u00b0";
+
     private void initialize() {
         // Creating panels
         leftPanel = new JPanel();
@@ -34,41 +48,71 @@ public class Homebase extends JFrame {
         rightPanel = new JPanel();
         rightPanel.setBackground(Color.BLACK);
 
+        // Setting up weather panel
+        weatherPanel = new JPanel(new GridLayout(1,2));
+        weatherPanel.setBackground(Color.BLACK);
+
         getDateAndTime();
+        try {
+            getCurrentWeather();
+        } catch (APIException e) {
+            e.printStackTrace();
+        }
 
         // Creating labels
         dayLabel = new JLabel(day);
         dayLabel.setForeground(Color.WHITE);
-        dayLabel.setFont(new Font("Advent Pro", Font.PLAIN, 46));
+        dayLabel.setFont(new Font("Advent Pro", Font.PLAIN, 52));
         dateLabel = new JLabel(date);
-        dateLabel.setForeground(Color.WHITE);
+        dateLabel.setForeground(Color.LIGHT_GRAY);
         dateLabel.setFont(new Font("Advent Pro", Font.PLAIN, 30));
         timeLabel = new JLabel(time);
         timeLabel.setForeground(Color.WHITE);
-        timeLabel.setFont(new Font("Advent Pro", Font.PLAIN, 38));
-        tempLabel = new JLabel("90F");
+        timeLabel.setFont(new Font("Advent Pro", Font.PLAIN, 60));
+        tempLabel = new JLabel(weather.getCurrentTemp() + DEGREE + "F");
         tempLabel.setForeground(Color.WHITE);
-        tempLabel.setFont(new Font("Advent Pro", Font.PLAIN, 30));
+        tempLabel.setFont(new Font("Advent Pro", Font.PLAIN, 60));
+
+        // Image label
+        imageLabel = new JLabel(weatherIcon);
 
         // Adding elements to panel's
         leftPanel.add(dayLabel);
         leftPanel.add(dateLabel);
         leftPanel.add(timeLabel);
-        rightPanel.add(tempLabel);
+
+        // Adding weather elements
+        weatherPanel.add(imageLabel);
+        weatherPanel.add(tempLabel);
+        rightPanel.add(weatherPanel);
 
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.EAST);
         getContentPane().setBackground(Color.BLACK);
 
         // Timer for time
-        Timer SimpleTimer = new Timer(1000, new ActionListener(){
+        Timer currentTimeTimer = new Timer(1000, new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 getDateAndTime();
                 timeLabel.setText(time);
             }
         });
-        SimpleTimer.start();
+        currentTimeTimer.start();
+
+        // Timer for weather
+        Timer weatherTimer = new Timer(1000 * 60, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    getCurrentWeather();
+                } catch (APIException e1) {
+                    e1.printStackTrace();
+                }
+                tempLabel.setText(weather.getCurrentTemp() + DEGREE + "F");
+            }
+        });
+        weatherTimer.start();
     }
 
     private void getDateAndTime() {
@@ -81,6 +125,25 @@ public class Homebase extends JFrame {
         day = split[0];
         date = split[1];
         time = split[2];
+    }
+
+    private void getCurrentWeather() throws APIException, NullPointerException {
+
+
+        // holds data for five day forecast
+        List<WeatherData> fiveDayForecast = new LinkedList<>();
+
+        // declaring object of "OWM" class
+        OWM owm = new OWM("304c11e7de533a338803ab9aaab95abd");
+
+        // getting current weather data for the "London" city
+        CurrentWeather currentWeather = owm.currentWeatherByCityName("Estero");
+        weather = new Weather(currentWeather.getCityName(), currentWeather.getMainData().getTempMax(),
+                currentWeather.getMainData().getTempMin(), currentWeather.getMainData().getTemp(),
+                currentWeather.getWeatherList().get(0).getConditionId());
+
+        // Getting current weather icon
+        weatherIcon = weather.getConditionIcon();
     }
 
     private Homebase() {
