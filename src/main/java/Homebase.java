@@ -13,9 +13,11 @@ import java.util.List;
 
 public class Homebase extends JFrame {
     // Panels for BorderLayout
+    private static JPanel mainPanel;
     private static JPanel leftPanel;
     private static JPanel rightPanel;
     private static JPanel weatherPanel;
+    private static JPanel weatherForecastPanel;
 
     // Panel labels
     private static JLabel dayLabel;
@@ -42,10 +44,13 @@ public class Homebase extends JFrame {
 
     private void initialize() {
         // Creating panels
+        mainPanel = new JPanel(new BorderLayout(0,0));
+        mainPanel.setBackground(Color.BLACK);
         leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
         leftPanel.setBackground(Color.BLACK);
         rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
         rightPanel.setBackground(Color.BLACK);
 
         // Setting up weather panel
@@ -84,10 +89,16 @@ public class Homebase extends JFrame {
         // Adding weather elements
         weatherPanel.add(imageLabel);
         weatherPanel.add(tempLabel);
-        rightPanel.add(weatherPanel);
+        rightPanel.add(weatherPanel, BorderLayout.NORTH);
 
-        add(leftPanel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
+        // Getting and adding weather forecast
+        WeatherForecast weatherForecast = new WeatherForecast();
+        weatherForecastPanel = weatherForecast.getWeatherPanel();
+        rightPanel.add(weatherForecastPanel, BorderLayout.CENTER);
+
+        mainPanel.add(leftPanel, BorderLayout.WEST);
+        mainPanel.add(rightPanel, BorderLayout.EAST);
+        add(mainPanel);
         getContentPane().setBackground(Color.BLACK);
 
         // Timer for time
@@ -101,7 +112,7 @@ public class Homebase extends JFrame {
         currentTimeTimer.start();
 
         // Timer for weather
-        Timer weatherTimer = new Timer(1000 * 60, new ActionListener() {
+        Timer weatherTimer = new Timer(1000 * 60 * 10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -148,8 +159,9 @@ public class Homebase extends JFrame {
 
     private Homebase() {
         super("Smart Mirror");
-        setLayout(new BorderLayout(0,0));
+        //setLayout(new BorderLayout(0,0));
         initialize();
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     }
 
     public static void main(String args[]) {
