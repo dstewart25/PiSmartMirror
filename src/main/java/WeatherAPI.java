@@ -55,7 +55,7 @@ public class WeatherAPI {
 
         // Adding weather data to
         List<WeatherData> forecastList = weatherForecast.getDataList();
-        /*for (int i=0; i<forecastList.size(); i += 8) {
+        for (int i=0; i<forecastList.size(); i += 8) {
             //System.out.println(forecastList.get(i).toString());
             fiveDayForecast.add(forecastList.get(i));
             System.out.println("Day: " + forecastList.get(i).getDateTimeText() +
@@ -63,6 +63,6 @@ public class WeatherAPI {
                     + "\nHigh: " + df.format(forecastList.get(i).getMainData().getTempMax() * (9.0/5.0) - 459.76) + DEGREE + "F"
                     + "\nLow: " + df.format(forecastList.get(i).getMainData().getTempMin() * (9.0/5.0) - 459.76) + DEGREE + "F"
                     + "\nCurrent: " + df.format(forecastList.get(i).getMainData().getTemp() * (9.0/5.0) - 459.76) + DEGREE + "F");
-        }*/
+        }
     }
 }
