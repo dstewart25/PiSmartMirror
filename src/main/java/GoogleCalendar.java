@@ -1,17 +1,3 @@
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-// [START calendar_quickstart]
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -27,7 +13,11 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
+import sun.java2d.pipe.SpanShapeRenderer;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,17 +25,11 @@ import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
-public class CalendarQuickstart {
+public class GoogleCalendar extends JFrame {
     // Holding names of events, start times, and end times
-    //private static DateTime eventTimes[][] = new DateTime[10][2];
-    private static Map eventMap = new HashMap();
-
-    // Date and time text
-    private static String day;
-    private static String date;
-    private static String time;
-
+    private static Map eventMap = new LinkedHashMap();
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
@@ -77,7 +61,7 @@ public class CalendarQuickstart {
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
     }
 
-    public static void main(String... args) throws IOException, GeneralSecurityException, ParseException {
+    private static void getCalendarDetails() throws IOException, GeneralSecurityException, ParseException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
@@ -116,5 +100,84 @@ public class CalendarQuickstart {
             }
         }
     }
+
+    private JPanel calendarPanel;
+    private JTable calendarTable;
+    private DefaultTableModel calendarTableModel;
+    private JLabel calendarLabel;
+
+    private void initialize() {
+        // Getting calendar events and times
+        try {
+            getCalendarDetails();
+        } catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+
+        // Setting up panel to hold calendar information
+        calendarPanel = new JPanel();
+        calendarPanel.setBackground(Color.BLACK);
+
+        // Setting up label for top of calendar
+        calendarLabel = new JLabel("Your Calendar");
+        calendarLabel.setFont(new Font("Advent Pro", Font.PLAIN, 30));
+        calendarLabel.setForeground(Color.LIGHT_GRAY);
+
+        // Setting up table for calendar
+        populateTable();
+        calendarTable = new JTable(calendarTableModel);
+        //calendarTable.getColumnModel().setColumnMargin(20);
+        calendarTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        calendarTable.setPreferredSize(new Dimension(500, 300));
+        calendarTable.setTableHeader(null);
+        calendarTable.setBorder(null);
+        calendarTable.setGridColor(Color.BLACK);
+        calendarTable.setBackground(Color.BLACK);
+        calendarTable.setForeground(Color.LIGHT_GRAY);
+        calendarTable.setBorder(BorderFactory.createEmptyBorder(40,0,0,0));
+        //calendarTable.setRowHeight(calendarTable.getRowHeight() + 40);
+        //calendarTable.setFont(new Font("Serif", Font.BOLD, 36));
+
+        calendarPanel.add(calendarLabel);
+        calendarPanel.add(calendarTable);
+        add(calendarPanel);
+    }
+
+    private void populateTable() {
+        String[] column = new String[] {"Event", "Day", "Start Time", "End Time"};
+        Object[][] data = new Object[10][4];
+
+        int index = 0;
+        Iterator it = eventMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            Date[] bothDates = (Date[]) pair.getValue();
+            Date startDate = bothDates[0];
+            Date endDate = bothDates[1];
+
+            SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE MMM dd");
+            SimpleDateFormat startDateFormat = new SimpleDateFormat("h:mm a");
+            SimpleDateFormat endDateFormat = new SimpleDateFormat("h:mm a");
+
+            data[index][0] = pair.getKey();
+            data[index][1] = dayFormat.format(startDate);
+            data[index][2] = startDateFormat.format(startDate);
+            data[index][3] = endDateFormat.format(endDate);
+
+            index++;
+        }
+        calendarTableModel = new DefaultTableModel(data, column);
+    }
+
+    public GoogleCalendar() {
+        initialize();
+    }
+
+    public static void main(String args[]) {
+        GoogleCalendar googleCalendarPanel = new GoogleCalendar();
+        googleCalendarPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        googleCalendarPanel.setSize(600,400);
+        googleCalendarPanel.setVisible(true);
+    }
 }
-// [END calendar_quickstart]
