@@ -29,7 +29,7 @@ import java.util.List;
 
 // blah
 
-public class GoogleCalendar extends JFrame {
+public class GoogleCalendar extends JPanel {
     // Holding names of events, start times, and end times
     private static Map eventMap = new LinkedHashMap();
     private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart";
@@ -98,7 +98,7 @@ public class GoogleCalendar extends JFrame {
                 eventTimes[0] = start;
                 eventTimes[1] = end;
                 eventMap.put(eventName, eventTimes);
-                System.out.printf("%s (%s), (%s)\n", event.getSummary(), start.toString(), end.toString());
+                //System.out.printf("%s (%s), (%s)\n", event.getSummary(), start.toString(), end.toString());
             }
         }
     }
@@ -118,7 +118,7 @@ public class GoogleCalendar extends JFrame {
         }
 
         // Setting up panel to hold calendar information
-        calendarPanel = new JPanel();
+        calendarPanel = new JPanel(new GridLayout(2,1));
         calendarPanel.setBackground(Color.BLACK);
 
         // Setting up label for top of calendar
@@ -130,14 +130,14 @@ public class GoogleCalendar extends JFrame {
         populateTable();
         calendarTable = new JTable(calendarTableModel);
         //calendarTable.getColumnModel().setColumnMargin(20);
-        calendarTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        calendarTable.getColumnModel().getColumn(0).setPreferredWidth(100);
         calendarTable.setPreferredSize(new Dimension(500, 300));
         calendarTable.setTableHeader(null);
         calendarTable.setBorder(null);
         calendarTable.setGridColor(Color.BLACK);
         calendarTable.setBackground(Color.BLACK);
         calendarTable.setForeground(Color.LIGHT_GRAY);
-        calendarTable.setBorder(BorderFactory.createEmptyBorder(40,0,0,0));
+        //calendarTable.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
         //calendarTable.setRowHeight(calendarTable.getRowHeight() + 40);
         //calendarTable.setFont(new Font("Serif", Font.BOLD, 36));
 
@@ -147,8 +147,8 @@ public class GoogleCalendar extends JFrame {
     }
 
     private void populateTable() {
-        String[] column = new String[] {"Event", "Day", "Start Time", "End Time"};
-        Object[][] data = new Object[10][4];
+        String[] column = new String[] {"Event", "Day", "Start Time"};
+        Object[][] data = new Object[10][3];
 
         int index = 0;
         Iterator it = eventMap.entrySet().iterator();
@@ -164,22 +164,25 @@ public class GoogleCalendar extends JFrame {
 
             data[index][0] = pair.getKey();
             data[index][1] = dayFormat.format(startDate);
-            data[index][2] = startDateFormat.format(startDate);
-            data[index][3] = endDateFormat.format(endDate);
+            data[index][2] = startDateFormat.format(startDate) + " to " + endDateFormat.format(endDate);
+            //data[index][3] = endDateFormat.format(endDate);
 
             index++;
         }
         calendarTableModel = new DefaultTableModel(data, column);
     }
 
+    public JPanel getCalendarPanel() {
+        return calendarPanel;
+    }
+
     public GoogleCalendar() {
         initialize();
     }
 
-    public static void main(String args[]) {
-        GoogleCalendar googleCalendarPanel = new GoogleCalendar();
+    /*    GoogleCalendar googleCalendarPanel = new GoogleCalendar();
         googleCalendarPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        googleCalendarPanel.setSize(600,400);
+        googleCalendarPanel.setSize(500,300);
         googleCalendarPanel.setVisible(true);
-    }
+    }*/
 }

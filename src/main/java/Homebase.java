@@ -18,6 +18,9 @@ public class Homebase extends JFrame {
     private static JPanel rightPanel;
     private static JPanel weatherPanel;
     private static JPanel weatherForecastPanel;
+    private static JPanel calendarPanel;
+    private static JPanel bottomPanel;
+    private static JPanel bottomLeftPanel;
 
     // Panel labels
     private static JLabel dayLabel;
@@ -52,6 +55,10 @@ public class Homebase extends JFrame {
         rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
         rightPanel.setBackground(Color.BLACK);
+        bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(Color.BLACK);
+        bottomLeftPanel = new JPanel(new BorderLayout());
+        bottomLeftPanel.setBackground(Color.BLACK);
 
         // Setting up weather panel
         weatherPanel = new JPanel(new GridLayout(1,2));
@@ -96,8 +103,15 @@ public class Homebase extends JFrame {
         weatherForecastPanel = weatherForecast.getWeatherPanel();
         rightPanel.add(weatherForecastPanel, BorderLayout.CENTER);
 
+        // Getting and adding calendar
+        GoogleCalendar googleCalendar = new GoogleCalendar();
+        calendarPanel = googleCalendar.getCalendarPanel();
+        bottomLeftPanel.add(calendarPanel, BorderLayout.WEST);
+        bottomPanel.add(bottomLeftPanel, BorderLayout.SOUTH);
+
         mainPanel.add(leftPanel, BorderLayout.WEST);
         mainPanel.add(rightPanel, BorderLayout.EAST);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         add(mainPanel);
         getContentPane().setBackground(Color.BLACK);
 
@@ -147,9 +161,13 @@ public class Homebase extends JFrame {
 
         // getting current weather data for the "London" city
         CurrentWeather currentWeather = owm.currentWeatherByCityName("Estero");
-        weather = new Weather(currentWeather.getCityName(), currentWeather.getMainData().getTempMax(),
-                currentWeather.getMainData().getTempMin(), currentWeather.getMainData().getTemp(),
-                currentWeather.getWeatherList().get(0).getConditionId());
+        try {
+            weather = new Weather(currentWeather.getCityName(), currentWeather.getMainData().getTempMax(),
+                    currentWeather.getMainData().getTempMin(), currentWeather.getMainData().getTemp(),
+                    currentWeather.getWeatherList().get(0).getConditionId());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         // Getting current weather icon
         weatherIcon = weather.getConditionIcon();
@@ -157,9 +175,8 @@ public class Homebase extends JFrame {
 
     private Homebase() {
         super("Smart Mirror");
-        //setLayout(new BorderLayout(0,0));
         initialize();
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20,100,20,80));
     }
 
     public static void main(String args[]) {
