@@ -17,7 +17,7 @@ import java.util.List;
 public class WeatherForecast extends JPanel /* JFrame */ {
     private JPanel weatherPanel;
     private JTable weatherTable;
-    private JScrollPane weatherScrollPane;
+    //private JScrollPane weatherScrollPane;
     private DefaultTableModel weatherTableModel;
 
     private DecimalFormat df = new DecimalFormat("#");
@@ -43,7 +43,7 @@ public class WeatherForecast extends JPanel /* JFrame */ {
         populateTable();
         weatherTable = new JTable(weatherTableModel);
         weatherTable.getColumnModel().setColumnMargin(20);
-        weatherTable.setPreferredSize(new Dimension(600, 400));
+        weatherTable.setPreferredSize(new Dimension(500, 300));
         weatherTable.setTableHeader(null);
         weatherTable.setBorder(null);
         weatherTable.setGridColor(Color.BLACK);
@@ -52,11 +52,11 @@ public class WeatherForecast extends JPanel /* JFrame */ {
         //weatherTable.getColumnModel().getColumn(0).setPreferredWidth(300);
         weatherTable.setRowHeight(weatherTable.getRowHeight() + 40);
         weatherTable.setFont(new Font("Serif", Font.BOLD, 36));
-        weatherScrollPane = new JScrollPane(weatherTable,
+        /*weatherScrollPane = new JScrollPane(weatherTable,
                 JScrollPane.VERTICAL_SCROLLBAR_NEVER,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         weatherScrollPane.setPreferredSize(new Dimension(600, 400));
-        weatherScrollPane.setBackground(Color.BLACK);
+        weatherScrollPane.setBackground(Color.BLACK);*/
 
         weatherPanel.add(weatherTable);
     }

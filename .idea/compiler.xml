@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="Desktop-PiSmartMirror_main" target="1.7" />
+      <module name="Desktop-PiSmartMirror_test" target="1.7" />
       <module name="PiSmartMirror_main" target="1.7" />
       <module name="PiSmartMirror_test" target="1.7" />
     </bytecodeTargetLevel>

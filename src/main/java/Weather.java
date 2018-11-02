@@ -65,7 +65,7 @@ public class Weather {
     }
 
     public ImageIcon getConditionIcon() {
-        System.out.println("Weather conditionID: " + conditionID);
+        //System.out.println("Weather conditionID: " + conditionID);
         if (conditionID >= 200 && conditionID <= 232) { // storms
             switch (conditionID) {
                 // thunderstorms image

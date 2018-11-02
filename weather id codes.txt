@@ -1,0 +1,8 @@
+thunderstorms    = 202 211 212 221 232
+scattered-storms = 200 201 210 230 231
+light-rain       = 300-321
+rainy            = 500-531
+snow             = 600-622
+sunny            = 800
+partly-cloudy    = 801-802
+cloudy           = 803-804

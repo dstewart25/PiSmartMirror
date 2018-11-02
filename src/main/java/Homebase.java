@@ -139,8 +139,6 @@ public class Homebase extends JFrame {
     }
 
     private void getCurrentWeather() throws APIException, NullPointerException {
-
-
         // holds data for five day forecast
         List<WeatherData> fiveDayForecast = new LinkedList<>();
 
